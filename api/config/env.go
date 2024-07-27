@@ -21,6 +21,11 @@ type EnvConfig struct {
 	// HTTP Server
 	ServerHost string `env:"SERVER_HOST,required"`
 	ServerPort string `env:"SERVER_PORT,required"`
+	// MIT API
+	MitApiPeopleUrl    string `env:"MIT_API_PEOPLE_URL,required"`
+	MitApiImageUrl     string `env:"MIT_API_IMAGE_URL,required"`
+	MitApiClientId     string `env:"MIT_API_CLIENT_ID,required"`
+	MitApiClientSecret string `env:"MIT_API_CLIENT_SECRET,required"`
 }
 
 func EnvParse() (EnvConfig, error) {

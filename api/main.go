@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -9,9 +10,15 @@ import (
 	"time"
 
 	"github.com/superc03/fraternitas/api/config"
+	"github.com/superc03/fraternitas/api/utils"
 )
 
 func main() {
+	info, err := utils.MitGetUserImage(context.Background(), "https://mit-people-pictures-v2.cloudhub.io/people/v2/pictures", "f95fdb6a75334e82880e0639b8a12d63", "E579E98462e74982aA4DE195d3Aa43bf", "962029365")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println(info)
 	// Custom context for graceful shutdown
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
