@@ -3,16 +3,15 @@ package config
 import (
 	"context"
 	"fmt"
-
 	"github.com/redis/go-redis/v9"
 )
 
 func RedisInit(ctx context.Context, env *EnvConfig) (*redis.Client, error) {
-	client := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%s", env.RedisHost, env.RedisPort),
-		Password: env.RedisPassword,
-		DB:       env.RedisDB,
-	})
+	opt, err := redis.ParseURL(env.RedisUrl)
+	if err != nil {
+		return nil, fmt.Errorf("unable to parse Redis connection string: %w", err)
+	}
+	client := redis.NewClient(opt)
 	if err := client.Ping(ctx).Err(); err != nil {
 		return nil, err
 	}

@@ -8,10 +8,7 @@ type EnvConfig struct {
 	LogLevel  int    `env:"LOG_LEVEL" envDefault:"0"`
 	LogOutput string `env:"LOG_OUTPUT"`
 	// Redis
-	RedisPassword string `env:"REDIS_PASSWORD,required"`
-	RedisPort     string `env:"REDIS_PORT,required"`
-	RedisHost     string `env:"REDIS_HOST,required"`
-	RedisDB       int    `env:"REDIS_DB" envDefault:"0"`
+	RedisUrl string `env:"REDIS_URL,required"`
 	// Postgres
 	PostgresUsername string `env:"POSTGRES_USERNAME,required"`
 	PostgresPassword string `env:"POSTGRES_PASSWORD,required"`
