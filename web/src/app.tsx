@@ -3,23 +3,20 @@ import './app.scss';
 
 import { OktaWrapper } from './config/okta';
 import { BrowserRouter, Router, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Footer from './components/footer';
 
 
 
 const App = () => {
-  const { oktaAuth } = useOktaAuth();
-
   return (
-    <>
-      <button onClick={async () => oktaAuth.signInWithRedirect()}>Login</button>
-    </>
+    <Footer />
   )
 }
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <OktaWrapper><App /></OktaWrapper>,
+    element: <App />,
   }
 ]);
 
