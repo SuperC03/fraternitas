@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -9,6 +10,7 @@ import (
 	"time"
 
 	"github.com/superc03/fraternitas/api/config"
+	"github.com/superc03/fraternitas/api/utils"
 )
 
 func main() {
@@ -21,6 +23,13 @@ func main() {
 	if err != nil {
 		log.Fatal("Error parsing environmental variables\n", err.Error())
 	}
+
+	user, err := utils.OidcAuthCodeToKerb(ctx, env, "XcIKXb_z04CRn3dCVh09fWnwTZbk7gx2sGdTdkknrqQ")
+	if err != nil {
+		fmt.Println("OIDC Error", err)
+	}
+	fmt.Println("Kerb:", user)
+
 	// Logger shenanigans
 	logger, err := config.LogInit(&env)
 	if err != nil {
@@ -46,7 +55,7 @@ func main() {
 	}()
 
 	// Good to go...
-	logger.Info().Msg("Server started 🎉")
+	logger.Info().Str("host", env.ServerHost).Str("port", env.ServerPort).Msg("Server started 🎉")
 	// Wait for interrupt to stop server
 	<-ctx.Done()
 	logger.Info().Msg("Shutting down server in <10 seconds")

@@ -1,3 +1,4 @@
+import { useOktaAuth } from "@okta/okta-react";
 import BottomBar from "./bottom"
 
 import "./navbar.scss";
@@ -7,6 +8,8 @@ export interface NavbarProps {
 }
 
 export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
+  const { oktaAuth } = useOktaAuth();
+
   return (
     <>
       <nav className="navbar is-fixed-top" aria-label="primary navigation" role="navigation">
@@ -39,7 +42,7 @@ export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
               </div>
             ) : (
               <div className="navbar-item">
-                <button className="button is-primary">Login</button>
+                <button className="button is-primary" onClick={() => oktaAuth.signInWithRedirect()}>Login</button>
               </div>
             )}
           </div>

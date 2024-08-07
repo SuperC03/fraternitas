@@ -1,7 +1,7 @@
-import { useOktaAuth } from '@okta/okta-react';
+import { LoginCallback, useOktaAuth } from '@okta/okta-react';
 import './app.scss';
 
-import { OktaWrapper } from './config/okta';
+import { AuthRedirect } from './config/okta';
 import { BrowserRouter, Router, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Footer from './components/footer';
@@ -20,11 +20,11 @@ import UserPage from './routes/user';
 const App = () => {
   return (
     <>
-      <Navbar loggedIn={true} />
+      <Navbar loggedIn={false} />
       <div id="content">
         <RouterProvider router={router} />
       </div>
-      <Footer loggedIn={true} />
+      <Footer loggedIn={false} />
     </>
 
   )
@@ -34,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />,
+  },
+  {
+    path: 'mit-oauth',
+    element: <AuthRedirect />
   },
   {
     path: 'checkin',

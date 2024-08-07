@@ -23,6 +23,11 @@ type EnvConfig struct {
 	MitApiImageUrl     string `env:"MIT_API_IMAGE_URL,required"`
 	MitApiClientId     string `env:"MIT_API_CLIENT_ID,required"`
 	MitApiClientSecret string `env:"MIT_API_CLIENT_SECRET,required"`
+	// MIT Okta OIDC
+	OidcIssuerUri    string `env:"OIDC_ISSUER_URI,required"`
+	OidcRedirectUri  string `env:"OIDC_REDIRECT_URI,required"`
+	OidcClientId     string `env:"OIDC_CLIENT_ID,required"`
+	OidcClientSecret string `env:"OIDC_CLIENT_SECRET,required"`
 }
 
 func EnvParse() (EnvConfig, error) {
