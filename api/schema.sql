@@ -79,3 +79,17 @@ create table check_in
         constraint check_in_member_user_id_fk
             references "user"
 );
+
+create table session
+(
+    id         serial
+        constraint session_pk
+            primary key,
+    token      uuid                                   not null,
+    user_id    integer                                not null
+        constraint session_user_id_fk
+            references "user",
+    created_on timestamp with time zone default now() not null,
+    expires_on timestamp with time zone               not null
+);
+

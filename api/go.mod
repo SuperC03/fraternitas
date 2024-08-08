@@ -2,10 +2,13 @@ module github.com/superc03/fraternitas/api
 
 go 1.22.5
 
-require github.com/jackc/pgx/v5 v5.6.0
+require (
+	github.com/coreos/go-oidc/v3 v3.11.0
+	github.com/jackc/pgx/v5 v5.6.0
+	golang.org/x/oauth2 v0.22.0
+)
 
 require (
-	github.com/coreos/go-oidc/v3 v3.11.0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/fsnotify/fsnotify v1.4.7 // indirect
 	github.com/go-jose/go-jose/v4 v4.0.2 // indirect
@@ -31,7 +34,6 @@ require (
 	github.com/spf13/pflag v1.0.3 // indirect
 	github.com/spf13/viper v1.7.1 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
-	golang.org/x/oauth2 v0.22.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
 	gopkg.in/ini.v1 v1.51.0 // indirect
 	gopkg.in/yaml.v2 v2.2.4 // indirect
