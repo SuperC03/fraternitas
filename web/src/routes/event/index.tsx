@@ -1,11 +1,8 @@
-import { useEffect, useState } from 'react';
 import './event.scss';
 
-import { Link, Outlet, useLocation, useParams, useSearchParams } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 export const EventPage = (): JSX.Element => {
-  const { eventId } = useParams();
-
   const { pathname } = useLocation();
   const section = pathname.split('/')[pathname.split('/').length - 1];
 

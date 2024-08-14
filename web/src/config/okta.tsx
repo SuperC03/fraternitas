@@ -1,8 +1,7 @@
 import { OktaAuth } from "@okta/okta-auth-js";
-import { BrowserRouter as Router, Route, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Security, useOktaAuth } from "@okta/okta-react";
 import { ReactNode, useEffect } from "react";
-import { AuthProvider, AuthProviderProps } from "oidc-react";
 
 const oktaAuth = new OktaAuth({
   issuer: import.meta.env.VITE_OIDC_ISSUER_URI,

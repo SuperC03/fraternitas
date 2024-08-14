@@ -1,8 +1,7 @@
-import { LoginCallback, useOktaAuth } from '@okta/okta-react';
 import './app.scss';
 
 import { AuthRedirect } from './config/okta';
-import { BrowserRouter, Router, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Footer from './components/footer';
 import Navbar from './components/navbar';
