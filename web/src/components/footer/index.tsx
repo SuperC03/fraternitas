@@ -10,7 +10,9 @@ export const Footer = ({ loggedIn }: FooterProps): JSX.Element => {
       <footer className="footer">
         <div className="content has-text-centered">
           Powered by <b>Fraternitas v1.0</b><br />
-          <a href="mailto:fraternitus@mit.edu" target="_blank">Contact Us</a>
+          <a href="https://accessibility.mit.edu/" target="_blank">Accessibility Notice</a>
+          {" - "}
+          <a href="mailto:fraternitas@mit.edu" target="_blank">Contact Us</a>
         </div>
       </footer>
       {loggedIn ? <div className="is-hidden-tablet" id="footer-spacer"></div> : null}
