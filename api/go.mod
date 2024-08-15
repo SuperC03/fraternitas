@@ -1,6 +1,6 @@
 module github.com/superc03/fraternitas/api
 
-go 1.22.5
+go 1.22
 
 require (
 	github.com/coreos/go-oidc/v3 v3.11.0
