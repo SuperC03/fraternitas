@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -10,7 +9,6 @@ import (
 	"time"
 
 	"github.com/superc03/fraternitas/api/config"
-	"github.com/superc03/fraternitas/api/utils"
 )
 
 func main() {
@@ -23,12 +21,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Error parsing environmental variables\n", err.Error())
 	}
-
-	user, err := utils.OidcAuthCodeToKerb(ctx, env, "XcIKXb_z04CRn3dCVh09fWnwTZbk7gx2sGdTdkknrqQ")
-	if err != nil {
-		fmt.Println("OIDC Error", err)
-	}
-	fmt.Println("Kerb:", user)
 
 	// Logger shenanigans
 	logger, err := config.LogInit(&env)
