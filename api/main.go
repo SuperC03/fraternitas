@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/superc03/fraternitas/api/config"
+	"github.com/superc03/fraternitas/api/routes"
 )
 
 func main() {
@@ -32,6 +33,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Unable to connect to Postgres\n", err.Error())
 	}
+
 	defer db.Close()
 	// Redis shenanigans
 	redis, err := config.RedisInit(ctx, &env)
@@ -39,7 +41,9 @@ func main() {
 		log.Fatal("Unable to connect to Redis\n", err.Error())
 	}
 	// Echo server shenanigans
-	server := config.EchoInit(&env, logger, db, redis)
+	server, e, sessionManager := config.EchoInit(&env, logger, db, redis)
+	r := routes.NewRouteFactory(&env, logger, db, redis, sessionManager)
+	r.RegisterRoutes(e)
 	go func() {
 		if err = server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatal("Unable to start Echo server\n", err.Error())

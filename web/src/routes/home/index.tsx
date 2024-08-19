@@ -43,7 +43,7 @@ export const HomePage = (): JSX.Element => {
                 </div>
               </div>
               <div className="column is-half-mobile is-one-quarted-tablet">
-                <button type="submit" className="is-medium button is-fullwidth">Search</button>
+                <button type="submit" className="is-medium button is-fullwidth">Submit</button>
               </div>
             </form>
           </div>

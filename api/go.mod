@@ -1,6 +1,6 @@
 module github.com/superc03/fraternitas/api
 
-go 1.22
+go 1.22.0
 
 require (
 	github.com/coreos/go-oidc/v3 v3.11.0
@@ -9,6 +9,8 @@ require (
 )
 
 require (
+	github.com/alexedwards/scs/pgxstore v0.0.0-20240316134038-7e11d57e8885 // indirect
+	github.com/alexedwards/scs/v2 v2.4.0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/fsnotify/fsnotify v1.4.7 // indirect
 	github.com/go-jose/go-jose/v4 v4.0.2 // indirect
@@ -28,6 +30,7 @@ require (
 	github.com/patrickmn/go-cache v0.0.0-20180815053127-5633e0862627 // indirect
 	github.com/pelletier/go-toml v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/spazzymoto/echo-scs-session v1.0.0 // indirect
 	github.com/spf13/afero v1.1.2 // indirect
 	github.com/spf13/cast v1.3.0 // indirect
 	github.com/spf13/jwalterweatherman v1.0.0 // indirect

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-
 	"github.com/redis/go-redis/v9"
 	"github.com/rs/zerolog"
 )
@@ -17,7 +17,7 @@ func EchoInit(
 	logger *zerolog.Logger,
 	db *pgxpool.Pool,
 	redis *redis.Client,
-) *http.Server {
+) (*http.Server, *echo.Echo, *scs.SessionManager) {
 	e := echo.New()
 
 	echoLoggerInit(e, logger)
@@ -26,8 +26,9 @@ func EchoInit(
 		Addr:    fmt.Sprintf("%s:%s", env.ServerHost, env.ServerPort),
 		Handler: e,
 	}
+	sessionManager := SessionInit(env, e, db)
 
-	return s
+	return s, e, sessionManager
 }
 
 func echoLoggerInit(e *echo.Echo, logger *zerolog.Logger) {
