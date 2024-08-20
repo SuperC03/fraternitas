@@ -45,11 +45,9 @@ type Reservation struct {
 }
 
 type Session struct {
-	ID        int32
-	Token     pgtype.UUID
-	UserID    int32
-	CreatedOn pgtype.Timestamptz
-	ExpiresOn pgtype.Timestamptz
+	Token  string
+	Data   []byte
+	Expiry pgtype.Timestamptz
 }
 
 type User struct {
@@ -67,4 +65,6 @@ type User struct {
 	OrgID      pgtype.Int4
 	IsAdmin    bool
 	BidStatus  pgtype.Text
+	Race       pgtype.Text
+	FirstGen   pgtype.Bool
 }

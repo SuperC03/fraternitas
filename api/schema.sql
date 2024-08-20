@@ -31,7 +31,9 @@ create table "user"
         constraint user_organization_id_fk
             references organization,
     is_admin   boolean                  default false not null,
-    bid_status text
+    bid_status text,
+    race       varchar,
+    first_gen  boolean
 );
 
 create table event
@@ -80,16 +82,14 @@ create table check_in
             references "user"
 );
 
-create table session
+create table sessions
 (
-    id         serial
-        constraint session_pk
-            primary key,
-    token      uuid                                   not null,
-    user_id    integer                                not null
-        constraint session_user_id_fk
-            references "user",
-    created_on timestamp with time zone default now() not null,
-    expires_on timestamp with time zone               not null
+    token  text                     not null
+        primary key,
+    data   bytea                    not null,
+    expiry timestamp with time zone not null
 );
+
+create index sessions_expiry_idx
+    on sessions (expiry);
 

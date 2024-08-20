@@ -12,7 +12,7 @@ import (
 )
 
 const getUserAndFratByKerb = `-- name: GetUserAndFratByKerb :one
-SELECT "user".id, created_at, updated_at, kerb, email, phone, department, class_year, gender, residence, legacy, org_id, is_admin, bid_status, organization.id, name, code, contact_name, contact_email, url, ifc_url, address FROM "user"
+SELECT "user".id, created_at, updated_at, kerb, email, phone, department, class_year, gender, residence, legacy, org_id, is_admin, bid_status, race, first_gen, organization.id, name, code, contact_name, contact_email, url, ifc_url, address FROM "user"
 LEFT JOIN "organization" on "user".org_id = "organization".id
 WHERE kerb=$1 LIMIT 1
 `
@@ -32,6 +32,8 @@ type GetUserAndFratByKerbRow struct {
 	OrgID        pgtype.Int4
 	IsAdmin      bool
 	BidStatus    pgtype.Text
+	Race         pgtype.Text
+	FirstGen     pgtype.Bool
 	ID_2         pgtype.Int4
 	Name         pgtype.Text
 	Code         pgtype.Text
@@ -60,6 +62,8 @@ func (q *Queries) GetUserAndFratByKerb(ctx context.Context, kerb string) (GetUse
 		&i.OrgID,
 		&i.IsAdmin,
 		&i.BidStatus,
+		&i.Race,
+		&i.FirstGen,
 		&i.ID_2,
 		&i.Name,
 		&i.Code,
@@ -73,7 +77,7 @@ func (q *Queries) GetUserAndFratByKerb(ctx context.Context, kerb string) (GetUse
 }
 
 const getUserByKerb = `-- name: GetUserByKerb :one
-SELECT id, created_at, updated_at, kerb, email, phone, department, class_year, gender, residence, legacy, org_id, is_admin, bid_status FROM "user"
+SELECT id, created_at, updated_at, kerb, email, phone, department, class_year, gender, residence, legacy, org_id, is_admin, bid_status, race, first_gen FROM "user"
 WHERE kerb=$1 LIMIT 1
 `
 
@@ -95,6 +99,8 @@ func (q *Queries) GetUserByKerb(ctx context.Context, kerb string) (User, error) 
 		&i.OrgID,
 		&i.IsAdmin,
 		&i.BidStatus,
+		&i.Race,
+		&i.FirstGen,
 	)
 	return i, err
 }
