@@ -49,7 +49,8 @@ create table event
     start       timestamp with time zone not null,
     venue       varchar,
     location    varchar,
-    "end"       timestamp with time zone not null
+    "end"       timestamp with time zone not null,
+    category    varchar
 );
 
 create table reservation

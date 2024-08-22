@@ -9,62 +9,63 @@ import (
 )
 
 type CheckIn struct {
-	ID        int32
-	CreatedAt pgtype.Timestamptz
-	EventID   int32
-	MemberID  int32
-	PnmID     int32
+	ID        int32              `json:"id"`
+	CreatedAt pgtype.Timestamptz `json:"created_at"`
+	EventID   int32              `json:"event_id"`
+	MemberID  int32              `json:"member_id"`
+	PnmID     int32              `json:"pnm_id"`
 }
 
 type Event struct {
-	ID          int32
-	OrgID       int32
-	Title       string
-	Description pgtype.Text
-	Start       pgtype.Timestamptz
-	Venue       pgtype.Text
-	Location    pgtype.Text
-	End         pgtype.Timestamptz
+	ID          int32              `json:"id"`
+	OrgID       int32              `json:"org_id"`
+	Title       string             `json:"title"`
+	Description pgtype.Text        `json:"description"`
+	Start       pgtype.Timestamptz `json:"start"`
+	Venue       pgtype.Text        `json:"venue"`
+	Location    pgtype.Text        `json:"location"`
+	End         pgtype.Timestamptz `json:"end"`
+	Category    pgtype.Text        `json:"category"`
 }
 
 type Organization struct {
-	ID           int32
-	Name         string
-	Code         string
-	ContactName  pgtype.Text
-	ContactEmail pgtype.Text
-	Url          pgtype.Text
-	IfcUrl       pgtype.Text
-	Address      pgtype.Text
+	ID           int32       `json:"id"`
+	Name         string      `json:"name"`
+	Code         string      `json:"code"`
+	ContactName  pgtype.Text `json:"contact_name"`
+	ContactEmail pgtype.Text `json:"contact_email"`
+	Url          pgtype.Text `json:"url"`
+	IfcUrl       pgtype.Text `json:"ifc_url"`
+	Address      pgtype.Text `json:"address"`
 }
 
 type Reservation struct {
-	ID      int32
-	UserID  int32
-	EventID int32
+	ID      int32 `json:"id"`
+	UserID  int32 `json:"user_id"`
+	EventID int32 `json:"event_id"`
 }
 
 type Session struct {
-	Token  string
-	Data   []byte
-	Expiry pgtype.Timestamptz
+	Token  string             `json:"token"`
+	Data   []byte             `json:"data"`
+	Expiry pgtype.Timestamptz `json:"expiry"`
 }
 
 type User struct {
-	ID         int32
-	CreatedAt  pgtype.Timestamptz
-	UpdatedAt  pgtype.Timestamptz
-	Kerb       string
-	Email      pgtype.Text
-	Phone      pgtype.Text
-	Department pgtype.Text
-	ClassYear  pgtype.Text
-	Gender     pgtype.Text
-	Residence  pgtype.Text
-	Legacy     pgtype.Text
-	OrgID      pgtype.Int4
-	IsAdmin    bool
-	BidStatus  pgtype.Text
-	Race       pgtype.Text
-	FirstGen   pgtype.Bool
+	ID         int32              `json:"id"`
+	CreatedAt  pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt  pgtype.Timestamptz `json:"updated_at"`
+	Kerb       string             `json:"kerb"`
+	Email      pgtype.Text        `json:"email"`
+	Phone      pgtype.Text        `json:"phone"`
+	Department pgtype.Text        `json:"department"`
+	ClassYear  pgtype.Text        `json:"class_year"`
+	Gender     pgtype.Text        `json:"gender"`
+	Residence  pgtype.Text        `json:"residence"`
+	Legacy     pgtype.Text        `json:"legacy"`
+	OrgID      pgtype.Int4        `json:"org_id"`
+	IsAdmin    bool               `json:"is_admin"`
+	BidStatus  pgtype.Text        `json:"bid_status"`
+	Race       pgtype.Text        `json:"race"`
+	FirstGen   pgtype.Bool        `json:"first_gen"`
 }

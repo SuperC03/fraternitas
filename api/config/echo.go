@@ -20,6 +20,7 @@ func EchoInit(
 ) (*http.Server, *echo.Echo, *scs.SessionManager) {
 	e := echo.New()
 
+	echoCorsInit(e, env)
 	echoLoggerInit(e, logger)
 
 	s := &http.Server{
@@ -29,6 +30,12 @@ func EchoInit(
 	sessionManager := SessionInit(env, e, db)
 
 	return s, e, sessionManager
+}
+
+func echoCorsInit(e *echo.Echo, env *EnvConfig) {
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{env.CorsAllowOrgin},
+	}))
 }
 
 func echoLoggerInit(e *echo.Echo, logger *zerolog.Logger) {

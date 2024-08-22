@@ -16,12 +16,12 @@ func (rf *RouteFactory) whoami(c echo.Context) error {
 	return c.String(http.StatusOK, "Hello X")
 }
 
-type loginWithMitOIDCData struct {
+type loginWithMitOIDCParams struct {
 	Code string `json:"code"`
 }
 
 func (rf *RouteFactory) loginWithMitOIDC(c echo.Context) error {
-	var data loginWithMitOIDCData
+	var data loginWithMitOIDCParams
 	if err := c.Bind(&data); err != nil {
 		return c.String(http.StatusBadRequest, "Value for `code` must be provided in JSON body")
 	}

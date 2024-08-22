@@ -2,6 +2,7 @@ import { useOktaAuth } from "@okta/okta-react";
 import BottomBar from "./bottom"
 
 import "./navbar.scss";
+import { Link } from "react-router-dom";
 
 export interface NavbarProps {
   loggedIn: boolean
@@ -15,7 +16,9 @@ export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
       <nav className="navbar is-fixed-top" aria-label="primary navigation" role="navigation">
         <div className="navbar-brand">
           <div className="navbar-item">
-            <h1 className="has-text-weight-bold is-capitalized is-size-3">IFC Rush</h1>
+            <Link to="/">
+              <h1 className="has-text-weight-bold is-capitalized is-size-3">IFC Rush</h1>
+            </Link>
           </div>
           <div className="navbar-burger">
             {loggedIn ? (

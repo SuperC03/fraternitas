@@ -7,12 +7,14 @@ import (
 	"github.com/redis/go-redis/v9"
 	"github.com/rs/zerolog"
 	"github.com/superc03/fraternitas/api/config"
+	"github.com/superc03/fraternitas/api/data"
 )
 
 type RouteFactory struct {
 	env            *config.EnvConfig
 	logger         *zerolog.Logger
 	db             *pgxpool.Pool
+	query          *data.Queries
 	redis          *redis.Client
 	sessionManager *scs.SessionManager
 }
@@ -20,6 +22,10 @@ type RouteFactory struct {
 func (rf *RouteFactory) RegisterRoutes(
 	e *echo.Echo,
 ) {
+	// Overview Routes
+	overviewRoutesGroup := e.Group("/overview")
+	overviewRoutesGroup.GET("", rf.overview)
+
 	// Auth Routes
 	authRoutesGroup := e.Group("/auth")
 	authRoutesGroup.GET("/whoami", rf.whoami)
@@ -43,6 +49,6 @@ func NewRouteFactory(
 	sessionManager *scs.SessionManager,
 ) *RouteFactory {
 	return &RouteFactory{
-		env, logger, db, redis, sessionManager,
+		env, logger, db, data.New(db), redis, sessionManager,
 	}
 }

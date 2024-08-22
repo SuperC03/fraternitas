@@ -1,6 +1,30 @@
+import { useQuery } from '@tanstack/react-query';
 import './home.scss';
+import { fetchOverview, FetchOverviewProps } from './query';
+import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import EventBlock from './block';
 
 export const HomePage = (): JSX.Element => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [queryParams, setQueryParams] = useState<FetchOverviewProps>();
+
+  useEffect(() => {
+    const orgId = parseInt(searchParams.get('orgId') ?? '');
+    setQueryParams({
+      orgId: isNaN(orgId) ? undefined : orgId,
+      after: searchParams.get('after') ?? undefined,
+      category: searchParams.get('category') ?? undefined,
+    });
+  }, [])
+
+  const { data, isLoading } = useQuery({
+    queryFn: () => fetchOverview(queryParams),
+    queryKey: ['overview', queryParams],
+    enabled: !!queryParams,
+    refetchOnWindowFocus: false,
+  });
+
   return (
     <>
       <header className="hero">
@@ -52,7 +76,18 @@ export const HomePage = (): JSX.Element => {
       </header>
       <main className="section">
         <div className="container is-max-desktop">
-
+          <div className="fixed-grid has-1-cols-mobile has-2-cols-tablet has-3-cols-desktop">
+            <div className="grid">
+              {isLoading ? (
+                // Generate five skeleton blocks
+                Array.from({length: 5}, (_, i) => i).map(i => (
+                  <div className="cell" key={i}>
+                    <div className="notification is-skeleton">Lorem ipsum dolor sit amet consectetur</div>
+                  </div>
+                ))
+              ) : data?.events.map(e => <EventBlock {...e} />)}
+            </div>
+          </div>
         </div>
       </main>
     </>
