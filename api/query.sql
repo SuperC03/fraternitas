@@ -14,10 +14,18 @@ LEFT JOIN "organization" ON "event".org_id = "organization".id
 WHERE (
     (org_id = @org_id OR @org_id = 0) AND
     (category = @category::text OR @category = '') AND
-    (start >= @after::date OR @after IS NULL)
+    (DATE(start) >= DATE(@after::text) OR @after IS NULL)
 )
 ORDER BY "start" ASC;
 
 -- name: GetOrgsOverview :many
 SELECT id, "name" FROM "organization"
 ORDER BY code ASC;
+
+-- name: GetDatesOverview :many
+SELECT DATE("start") FROM "event"
+GROUP BY DATE("start");
+
+-- name: GetDatetimesOverview :many
+SELECT "start" FROM "event"
+GROUP BY "start";

@@ -20,9 +20,12 @@ export interface FetchOverviewResponseOrg {
     name: string;
 };
 
+
 export interface FetchOverviewResponse {
     events: Array<FetchOverviewResponseEvent>;
     orgs: Array<FetchOverviewResponseOrg>;
+    dates: Array<string>;
+    datetimes: Array<string>;
 }
 
 export const fetchOverview =

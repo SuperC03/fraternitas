@@ -11,30 +11,80 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const getDatesOverview = `-- name: GetDatesOverview :many
+SELECT DATE("start") FROM "event"
+GROUP BY DATE("start")
+`
+
+func (q *Queries) GetDatesOverview(ctx context.Context) ([]pgtype.Date, error) {
+	rows, err := q.db.Query(ctx, getDatesOverview)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []pgtype.Date
+	for rows.Next() {
+		var date pgtype.Date
+		if err := rows.Scan(&date); err != nil {
+			return nil, err
+		}
+		items = append(items, date)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDatetimesOverview = `-- name: GetDatetimesOverview :many
+SELECT "start" FROM "event"
+GROUP BY "start"
+`
+
+func (q *Queries) GetDatetimesOverview(ctx context.Context) ([]pgtype.Timestamp, error) {
+	rows, err := q.db.Query(ctx, getDatetimesOverview)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []pgtype.Timestamp
+	for rows.Next() {
+		var start pgtype.Timestamp
+		if err := rows.Scan(&start); err != nil {
+			return nil, err
+		}
+		items = append(items, start)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getEventsOverview = `-- name: GetEventsOverview :many
 SELECT "event".id, org_id, title, "start", category, "organization".code AS "org_code" FROM "event"
 LEFT JOIN "organization" ON "event".org_id = "organization".id
 WHERE (
     (org_id = $1 OR $1 = 0) AND
     (category = $2::text OR $2 = '') AND
-    (start >= $3::date OR $3 IS NULL)
+    (DATE(start) >= DATE($3::text) OR $3 IS NULL)
 )
 ORDER BY "start" ASC
 `
 
 type GetEventsOverviewParams struct {
-	OrgID    int32       `json:"org_id"`
-	Category string      `json:"category"`
-	After    pgtype.Date `json:"after"`
+	OrgID    int32  `json:"org_id"`
+	Category string `json:"category"`
+	After    string `json:"after"`
 }
 
 type GetEventsOverviewRow struct {
-	ID       int32              `json:"id"`
-	OrgID    int32              `json:"org_id"`
-	Title    string             `json:"title"`
-	Start    pgtype.Timestamptz `json:"start"`
-	Category pgtype.Text        `json:"category"`
-	OrgCode  pgtype.Text        `json:"org_code"`
+	ID       int32            `json:"id"`
+	OrgID    int32            `json:"org_id"`
+	Title    string           `json:"title"`
+	Start    pgtype.Timestamp `json:"start"`
+	Category pgtype.Text      `json:"category"`
+	OrgCode  pgtype.Text      `json:"org_code"`
 }
 
 func (q *Queries) GetEventsOverview(ctx context.Context, arg GetEventsOverviewParams) ([]GetEventsOverviewRow, error) {
@@ -101,30 +151,30 @@ WHERE kerb=$1 LIMIT 1
 `
 
 type GetUserAndFratByKerbRow struct {
-	ID           int32              `json:"id"`
-	CreatedAt    pgtype.Timestamptz `json:"created_at"`
-	UpdatedAt    pgtype.Timestamptz `json:"updated_at"`
-	Kerb         string             `json:"kerb"`
-	Email        pgtype.Text        `json:"email"`
-	Phone        pgtype.Text        `json:"phone"`
-	Department   pgtype.Text        `json:"department"`
-	ClassYear    pgtype.Text        `json:"class_year"`
-	Gender       pgtype.Text        `json:"gender"`
-	Residence    pgtype.Text        `json:"residence"`
-	Legacy       pgtype.Text        `json:"legacy"`
-	OrgID        pgtype.Int4        `json:"org_id"`
-	IsAdmin      bool               `json:"is_admin"`
-	BidStatus    pgtype.Text        `json:"bid_status"`
-	Race         pgtype.Text        `json:"race"`
-	FirstGen     pgtype.Bool        `json:"first_gen"`
-	ID_2         pgtype.Int4        `json:"id_2"`
-	Name         pgtype.Text        `json:"name"`
-	Code         pgtype.Text        `json:"code"`
-	ContactName  pgtype.Text        `json:"contact_name"`
-	ContactEmail pgtype.Text        `json:"contact_email"`
-	Url          pgtype.Text        `json:"url"`
-	IfcUrl       pgtype.Text        `json:"ifc_url"`
-	Address      pgtype.Text        `json:"address"`
+	ID           int32            `json:"id"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+	UpdatedAt    pgtype.Timestamp `json:"updated_at"`
+	Kerb         string           `json:"kerb"`
+	Email        pgtype.Text      `json:"email"`
+	Phone        pgtype.Text      `json:"phone"`
+	Department   pgtype.Text      `json:"department"`
+	ClassYear    pgtype.Text      `json:"class_year"`
+	Gender       pgtype.Text      `json:"gender"`
+	Residence    pgtype.Text      `json:"residence"`
+	Legacy       pgtype.Text      `json:"legacy"`
+	OrgID        pgtype.Int4      `json:"org_id"`
+	IsAdmin      bool             `json:"is_admin"`
+	BidStatus    pgtype.Text      `json:"bid_status"`
+	Race         pgtype.Text      `json:"race"`
+	FirstGen     pgtype.Bool      `json:"first_gen"`
+	ID_2         pgtype.Int4      `json:"id_2"`
+	Name         pgtype.Text      `json:"name"`
+	Code         pgtype.Text      `json:"code"`
+	ContactName  pgtype.Text      `json:"contact_name"`
+	ContactEmail pgtype.Text      `json:"contact_email"`
+	Url          pgtype.Text      `json:"url"`
+	IfcUrl       pgtype.Text      `json:"ifc_url"`
+	Address      pgtype.Text      `json:"address"`
 }
 
 func (q *Queries) GetUserAndFratByKerb(ctx context.Context, kerb string) (GetUserAndFratByKerbRow, error) {

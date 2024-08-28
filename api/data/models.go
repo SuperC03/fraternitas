@@ -9,11 +9,11 @@ import (
 )
 
 type CheckIn struct {
-	ID        int32              `json:"id"`
-	CreatedAt pgtype.Timestamptz `json:"created_at"`
-	EventID   int32              `json:"event_id"`
-	MemberID  int32              `json:"member_id"`
-	PnmID     int32              `json:"pnm_id"`
+	ID        int32            `json:"id"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+	EventID   int32            `json:"event_id"`
+	MemberID  int32            `json:"member_id"`
+	PnmID     int32            `json:"pnm_id"`
 }
 
 type Event struct {
@@ -21,7 +21,7 @@ type Event struct {
 	OrgID       int32              `json:"org_id"`
 	Title       string             `json:"title"`
 	Description pgtype.Text        `json:"description"`
-	Start       pgtype.Timestamptz `json:"start"`
+	Start       pgtype.Timestamp   `json:"start"`
 	Venue       pgtype.Text        `json:"venue"`
 	Location    pgtype.Text        `json:"location"`
 	End         pgtype.Timestamptz `json:"end"`
@@ -52,20 +52,20 @@ type Session struct {
 }
 
 type User struct {
-	ID         int32              `json:"id"`
-	CreatedAt  pgtype.Timestamptz `json:"created_at"`
-	UpdatedAt  pgtype.Timestamptz `json:"updated_at"`
-	Kerb       string             `json:"kerb"`
-	Email      pgtype.Text        `json:"email"`
-	Phone      pgtype.Text        `json:"phone"`
-	Department pgtype.Text        `json:"department"`
-	ClassYear  pgtype.Text        `json:"class_year"`
-	Gender     pgtype.Text        `json:"gender"`
-	Residence  pgtype.Text        `json:"residence"`
-	Legacy     pgtype.Text        `json:"legacy"`
-	OrgID      pgtype.Int4        `json:"org_id"`
-	IsAdmin    bool               `json:"is_admin"`
-	BidStatus  pgtype.Text        `json:"bid_status"`
-	Race       pgtype.Text        `json:"race"`
-	FirstGen   pgtype.Bool        `json:"first_gen"`
+	ID         int32            `json:"id"`
+	CreatedAt  pgtype.Timestamp `json:"created_at"`
+	UpdatedAt  pgtype.Timestamp `json:"updated_at"`
+	Kerb       string           `json:"kerb"`
+	Email      pgtype.Text      `json:"email"`
+	Phone      pgtype.Text      `json:"phone"`
+	Department pgtype.Text      `json:"department"`
+	ClassYear  pgtype.Text      `json:"class_year"`
+	Gender     pgtype.Text      `json:"gender"`
+	Residence  pgtype.Text      `json:"residence"`
+	Legacy     pgtype.Text      `json:"legacy"`
+	OrgID      pgtype.Int4      `json:"org_id"`
+	IsAdmin    bool             `json:"is_admin"`
+	BidStatus  pgtype.Text      `json:"bid_status"`
+	Race       pgtype.Text      `json:"race"`
+	FirstGen   pgtype.Bool      `json:"first_gen"`
 }

@@ -17,9 +17,9 @@ create table "user"
     id         serial
         constraint user_pk
             primary key,
-    created_at timestamp with time zone default now() not null,
-    updated_at timestamp with time zone default now() not null,
-    kerb       varchar                                not null,
+    created_at timestamp default now() not null,
+    updated_at timestamp default now() not null,
+    kerb       varchar                 not null,
     email      varchar,
     phone      varchar,
     department varchar,
@@ -30,7 +30,7 @@ create table "user"
     org_id     integer
         constraint user_organization_id_fk
             references organization,
-    is_admin   boolean                  default false not null,
+    is_admin   boolean   default false not null,
     bid_status text,
     race       varchar,
     first_gen  boolean
@@ -46,7 +46,7 @@ create table event
             references organization,
     title       varchar                  not null,
     description text,
-    start       timestamp with time zone not null,
+    start       timestamp                not null,
     venue       varchar,
     location    varchar,
     "end"       timestamp with time zone not null,
@@ -71,14 +71,14 @@ create table check_in
     id         serial
         constraint check_in_pk
             primary key,
-    created_at timestamp with time zone default now() not null,
-    event_id   integer                                not null
+    created_at timestamp default now() not null,
+    event_id   integer                 not null
         constraint check_in_event_id_fk
             references event,
-    member_id  integer                                not null
+    member_id  integer                 not null
         constraint check_in_pnm_user_id_fk
             references "user",
-    pnm_id     integer                                not null
+    pnm_id     integer                 not null
         constraint check_in_member_user_id_fk
             references "user"
 );
