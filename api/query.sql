@@ -24,7 +24,8 @@ ORDER BY code ASC;
 
 -- name: GetDatesOverview :many
 SELECT DATE("start") FROM "event"
-GROUP BY DATE("start");
+GROUP BY DATE("start")
+ORDER BY "start" ASC;
 
 -- name: GetDatetimesOverview :many
 SELECT "start" FROM "event"

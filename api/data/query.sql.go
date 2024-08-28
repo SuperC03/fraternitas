@@ -14,6 +14,7 @@ import (
 const getDatesOverview = `-- name: GetDatesOverview :many
 SELECT DATE("start") FROM "event"
 GROUP BY DATE("start")
+ORDER BY "start" ASC
 `
 
 func (q *Queries) GetDatesOverview(ctx context.Context) ([]pgtype.Date, error) {

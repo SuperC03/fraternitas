@@ -9,7 +9,7 @@ export const EventBlock = (props: FetchOverviewResponseEvent) => {
     
     return (
         <div className={`notification event-box ${theme} columns is-mobile`}>
-            <Link className="column event-title" to={`/event/${props.id}/information`}>
+            <Link className="column event-title" to={`/event/${props.id}/info`}>
                 <p className="is-size-5">
                     <b className="has-text-weight-bold">[{props.org_code.toUpperCase()}]</b>
                     {' '}
