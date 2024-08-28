@@ -19,7 +19,7 @@ export const HomePage = (): JSX.Element => {
     setTimeSearchParam(searchParams.get('after') ?? undefined);
     setGroupSearchParam(isNaN(orgId) ? undefined : orgId);
     setCategorySearchParam(searchParams.get('category') ?? undefined);
-  }, [])
+  }, []);
 
   const { data, isLoading } = useQuery({
     queryFn: () => fetchOverview(queryParams),
@@ -70,7 +70,6 @@ export const HomePage = (): JSX.Element => {
         const day = date.toLocaleDateString('en-US', {dateStyle: 'long'});
         const time = date.toLocaleTimeString('en-US', {hour12: true, hour: '2-digit', minute: '2-digit'});
         if(!out.has(day)) {
-          console.log("sfs")
           out.set(day, new Map());  
         }
         if(!out.get(day)?.has(time)) {
@@ -98,6 +97,7 @@ export const HomePage = (): JSX.Element => {
                   <div className="select is-medium is-fullwidth">
                     <select name="after" value={timeSearchParam} onChange={e => setTimeSearchParam(e.target.value || undefined)}>
                       <option value="">All Events</option>
+                      <option value={(new Intl.DateTimeFormat('fr-CA', {year: 'numeric', month: '2-digit', day: '2-digit'})).format()}>Today</option>
                       {data?.dates?.map(d => (
                         <option key={d} value={d}>{(new Date(d)).toLocaleDateString('en-US', {weekday: 'long'})}</option>
                       ))}
@@ -159,7 +159,7 @@ export const HomePage = (): JSX.Element => {
                   <div key={time+"-title"} className="subtitle is-5 divider is-left">{time}</div>
                   <div key={time+"-grid"} className="fixed-grid has-1-cols-mobile has-3-cols-tablet">
                     <div className="grid">
-                      {timedEvents.map(e => <div key={e.id} className="cell"><EventBlock {...e} /></div>)}
+                      {timedEvents.map(e => <div key={e.id} className="cell px-3 py-3"><EventBlock {...e} /></div>)}
                     </div>
                   </div>
                 </>))}
