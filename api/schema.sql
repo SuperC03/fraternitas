@@ -41,15 +41,15 @@ create table event
     id          serial
         constraint event_pk
             primary key,
-    org_id      integer                  not null
+    org_id      integer not null
         constraint event_organization_id_fk
             references organization,
-    title       varchar                  not null,
+    title       varchar not null,
     description text,
-    start       timestamp                not null,
+    start       timestamp,
     venue       varchar,
     location    varchar,
-    "end"       timestamp with time zone not null,
+    "end"       timestamp,
     category    varchar
 );
 

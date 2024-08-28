@@ -5,7 +5,7 @@ export const EventBlock = (props: FetchOverviewResponseEvent) => {
     const theme = props.category == "Excursion" ? "is-link" :
         props.category == "Party" ? "is-danger" :
         props.category == "Meal" ? "is-warning" :
-        props.category == "Hang Out" ? "is-success" : "";
+        props.category == "Hangout" ? "is-success" : "";
     
     return (
         <div className={`notification event-box ${theme} columns is-mobile`}>

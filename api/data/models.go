@@ -17,15 +17,15 @@ type CheckIn struct {
 }
 
 type Event struct {
-	ID          int32              `json:"id"`
-	OrgID       int32              `json:"org_id"`
-	Title       string             `json:"title"`
-	Description pgtype.Text        `json:"description"`
-	Start       pgtype.Timestamp   `json:"start"`
-	Venue       pgtype.Text        `json:"venue"`
-	Location    pgtype.Text        `json:"location"`
-	End         pgtype.Timestamptz `json:"end"`
-	Category    pgtype.Text        `json:"category"`
+	ID          int32            `json:"id"`
+	OrgID       int32            `json:"org_id"`
+	Title       string           `json:"title"`
+	Description pgtype.Text      `json:"description"`
+	Start       pgtype.Timestamp `json:"start"`
+	Venue       pgtype.Text      `json:"venue"`
+	Location    pgtype.Text      `json:"location"`
+	End         pgtype.Timestamp `json:"end"`
+	Category    pgtype.Text      `json:"category"`
 }
 
 type Organization struct {
