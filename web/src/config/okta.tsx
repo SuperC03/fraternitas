@@ -1,6 +1,6 @@
 import { OktaAuth } from "@okta/okta-auth-js";
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Security, useOktaAuth } from "@okta/okta-react";
+import { Security } from "@okta/okta-react";
 import { ReactNode, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
