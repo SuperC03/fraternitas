@@ -2,11 +2,13 @@
 SELECT * FROM "user"
 WHERE kerb=$1 LIMIT 1;
 
--- name: GetUserAndFratByKerb :one
-SELECT * FROM "user"
-LEFT JOIN "organization" ON "user".org_id = "organization".id
-WHERE kerb=$1 LIMIT 1;
-
+-- name: CreateNonAdminUser :one
+INSERT INTO "user" (
+    "name", kerb, phone, department, class_year
+) VALUES (
+    $1, $2, $3, $4, $5
+)
+RETURNING kerb, is_admin, org_id, "name";
 
 -- name: GetEventsOverview :many
 SELECT "event".id, org_id, title, "start", category, "organization".code AS "org_code" FROM "event"
@@ -29,3 +31,9 @@ GROUP BY DATE("start") ORDER BY DATE("start");
 -- name: GetDatetimesOverview :many
 SELECT "start" FROM "event"
 GROUP BY "start";
+
+-- name: GetEventInformation :one
+SELECT "event".id, org_id, title, "start", "end", "description", "location", category, "organization"."name" as org_name FROM "event"
+LEFT JOIN "organization" ON "event".org_id = "organization".id
+WHERE "event".id = $1
+LIMIT 1;

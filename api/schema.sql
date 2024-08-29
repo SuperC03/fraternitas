@@ -33,7 +33,8 @@ create table "user"
     is_admin   boolean   default false not null,
     bid_status text,
     race       varchar,
-    first_gen  boolean
+    first_gen  boolean,
+    name       varchar
 );
 
 create table event

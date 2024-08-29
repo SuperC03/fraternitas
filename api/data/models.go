@@ -68,4 +68,5 @@ type User struct {
 	BidStatus  pgtype.Text      `json:"bid_status"`
 	Race       pgtype.Text      `json:"race"`
 	FirstGen   pgtype.Bool      `json:"first_gen"`
+	Name       pgtype.Text      `json:"name"`
 }

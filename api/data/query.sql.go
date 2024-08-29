@@ -11,6 +11,48 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const createNonAdminUser = `-- name: CreateNonAdminUser :one
+INSERT INTO "user" (
+    "name", kerb, phone, department, class_year
+) VALUES (
+    $1, $2, $3, $4, $5
+)
+RETURNING kerb, is_admin, org_id, "name"
+`
+
+type CreateNonAdminUserParams struct {
+	Name       pgtype.Text `json:"name"`
+	Kerb       string      `json:"kerb"`
+	Phone      pgtype.Text `json:"phone"`
+	Department pgtype.Text `json:"department"`
+	ClassYear  pgtype.Text `json:"class_year"`
+}
+
+type CreateNonAdminUserRow struct {
+	Kerb    string      `json:"kerb"`
+	IsAdmin bool        `json:"is_admin"`
+	OrgID   pgtype.Int4 `json:"org_id"`
+	Name    pgtype.Text `json:"name"`
+}
+
+func (q *Queries) CreateNonAdminUser(ctx context.Context, arg CreateNonAdminUserParams) (CreateNonAdminUserRow, error) {
+	row := q.db.QueryRow(ctx, createNonAdminUser,
+		arg.Name,
+		arg.Kerb,
+		arg.Phone,
+		arg.Department,
+		arg.ClassYear,
+	)
+	var i CreateNonAdminUserRow
+	err := row.Scan(
+		&i.Kerb,
+		&i.IsAdmin,
+		&i.OrgID,
+		&i.Name,
+	)
+	return i, err
+}
+
 const getDatesOverview = `-- name: GetDatesOverview :many
 SELECT DATE("start") FROM "event"
 GROUP BY DATE("start") ORDER BY DATE("start")
@@ -59,6 +101,42 @@ func (q *Queries) GetDatetimesOverview(ctx context.Context) ([]pgtype.Timestamp,
 		return nil, err
 	}
 	return items, nil
+}
+
+const getEventInformation = `-- name: GetEventInformation :one
+SELECT "event".id, org_id, title, "start", "end", "description", "location", category, "organization"."name" as org_name FROM "event"
+LEFT JOIN "organization" ON "event".org_id = "organization".id
+WHERE "event".id = $1
+LIMIT 1
+`
+
+type GetEventInformationRow struct {
+	ID          int32            `json:"id"`
+	OrgID       int32            `json:"org_id"`
+	Title       string           `json:"title"`
+	Start       pgtype.Timestamp `json:"start"`
+	End         pgtype.Timestamp `json:"end"`
+	Description pgtype.Text      `json:"description"`
+	Location    pgtype.Text      `json:"location"`
+	Category    pgtype.Text      `json:"category"`
+	OrgName     pgtype.Text      `json:"org_name"`
+}
+
+func (q *Queries) GetEventInformation(ctx context.Context, id int32) (GetEventInformationRow, error) {
+	row := q.db.QueryRow(ctx, getEventInformation, id)
+	var i GetEventInformationRow
+	err := row.Scan(
+		&i.ID,
+		&i.OrgID,
+		&i.Title,
+		&i.Start,
+		&i.End,
+		&i.Description,
+		&i.Location,
+		&i.Category,
+		&i.OrgName,
+	)
+	return i, err
 }
 
 const getEventsOverview = `-- name: GetEventsOverview :many
@@ -144,73 +222,8 @@ func (q *Queries) GetOrgsOverview(ctx context.Context) ([]GetOrgsOverviewRow, er
 	return items, nil
 }
 
-const getUserAndFratByKerb = `-- name: GetUserAndFratByKerb :one
-SELECT "user".id, created_at, updated_at, kerb, email, phone, department, class_year, gender, residence, legacy, org_id, is_admin, bid_status, race, first_gen, organization.id, name, code, contact_name, contact_email, url, ifc_url, address FROM "user"
-LEFT JOIN "organization" ON "user".org_id = "organization".id
-WHERE kerb=$1 LIMIT 1
-`
-
-type GetUserAndFratByKerbRow struct {
-	ID           int32            `json:"id"`
-	CreatedAt    pgtype.Timestamp `json:"created_at"`
-	UpdatedAt    pgtype.Timestamp `json:"updated_at"`
-	Kerb         string           `json:"kerb"`
-	Email        pgtype.Text      `json:"email"`
-	Phone        pgtype.Text      `json:"phone"`
-	Department   pgtype.Text      `json:"department"`
-	ClassYear    pgtype.Text      `json:"class_year"`
-	Gender       pgtype.Text      `json:"gender"`
-	Residence    pgtype.Text      `json:"residence"`
-	Legacy       pgtype.Text      `json:"legacy"`
-	OrgID        pgtype.Int4      `json:"org_id"`
-	IsAdmin      bool             `json:"is_admin"`
-	BidStatus    pgtype.Text      `json:"bid_status"`
-	Race         pgtype.Text      `json:"race"`
-	FirstGen     pgtype.Bool      `json:"first_gen"`
-	ID_2         pgtype.Int4      `json:"id_2"`
-	Name         pgtype.Text      `json:"name"`
-	Code         pgtype.Text      `json:"code"`
-	ContactName  pgtype.Text      `json:"contact_name"`
-	ContactEmail pgtype.Text      `json:"contact_email"`
-	Url          pgtype.Text      `json:"url"`
-	IfcUrl       pgtype.Text      `json:"ifc_url"`
-	Address      pgtype.Text      `json:"address"`
-}
-
-func (q *Queries) GetUserAndFratByKerb(ctx context.Context, kerb string) (GetUserAndFratByKerbRow, error) {
-	row := q.db.QueryRow(ctx, getUserAndFratByKerb, kerb)
-	var i GetUserAndFratByKerbRow
-	err := row.Scan(
-		&i.ID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.Kerb,
-		&i.Email,
-		&i.Phone,
-		&i.Department,
-		&i.ClassYear,
-		&i.Gender,
-		&i.Residence,
-		&i.Legacy,
-		&i.OrgID,
-		&i.IsAdmin,
-		&i.BidStatus,
-		&i.Race,
-		&i.FirstGen,
-		&i.ID_2,
-		&i.Name,
-		&i.Code,
-		&i.ContactName,
-		&i.ContactEmail,
-		&i.Url,
-		&i.IfcUrl,
-		&i.Address,
-	)
-	return i, err
-}
-
 const getUserByKerb = `-- name: GetUserByKerb :one
-SELECT id, created_at, updated_at, kerb, email, phone, department, class_year, gender, residence, legacy, org_id, is_admin, bid_status, race, first_gen FROM "user"
+SELECT id, created_at, updated_at, kerb, email, phone, department, class_year, gender, residence, legacy, org_id, is_admin, bid_status, race, first_gen, name FROM "user"
 WHERE kerb=$1 LIMIT 1
 `
 
@@ -234,6 +247,7 @@ func (q *Queries) GetUserByKerb(ctx context.Context, kerb string) (User, error) 
 		&i.BidStatus,
 		&i.Race,
 		&i.FirstGen,
+		&i.Name,
 	)
 	return i, err
 }

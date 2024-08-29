@@ -99,7 +99,7 @@ export const HomePage = (): JSX.Element => {
                       <option value="">All Events</option>
                       <option value={(new Intl.DateTimeFormat('fr-CA', {year: 'numeric', month: '2-digit', day: '2-digit'})).format()}>Today</option>
                       {data?.dates?.map(d => (
-                        <option key={d} value={d}>{(new Date(d)).toLocaleDateString('en-US', {weekday: 'long'})}</option>
+                        <option key={d} value={d}>{d}</option>
                       ))}
                     </select>
                   </div>

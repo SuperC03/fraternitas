@@ -2,7 +2,6 @@ package routes
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/labstack/echo/v4"
@@ -31,7 +30,6 @@ func (rf *RouteFactory) overview(c echo.Context) error {
 	if queryParams.After == "" {
 		queryParams.After = "1991-01-01"
 	}
-	println(strings.ToUpper(queryParams.Category))
 
 	eventRows, err := rf.query.GetEventsOverview(c.Request().Context(), data.GetEventsOverviewParams{
 		OrgID:    queryParams.OrgId,

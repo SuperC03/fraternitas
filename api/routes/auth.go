@@ -1,8 +1,11 @@
 package routes
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/labstack/echo/v4"
 	"github.com/superc03/fraternitas/api/utils"
 )
@@ -32,6 +35,18 @@ func (rf *RouteFactory) loginWithMitOIDC(c echo.Context) error {
 	if err != nil {
 		rf.logger.Warn().Str("code", data.Code).Err(err).Msg("Failed attempt to resolve OIDC code")
 		return c.String(http.StatusUnauthorized, "Invalid OpenID code provided")
+	}
+	_, err = rf.query.GetUserByKerb(c.Request().Context(), "sdgsdfgsdfg")
+	if err != nil && errors.Is(err, pgx.ErrNoRows) {
+		info, err := utils.MitGetUser(c.Request().Context(), rf.env.MitApiPeopleUrl, rf.env.MitApiClientId, rf.env.MitApiClientSecret, kerb)
+		if err != nil {
+			rf.logger.Warn().Str("kerb", kerb).Err(err).Msg("Unable to query MIT People API")
+			return c.NoContent(http.StatusInternalServerError)
+		}
+		fmt.Println(info)
+	} else if err != nil {
+		rf.logger.Warn().Str("kerb", kerb).Err(err).Msg("Unable to query for existing users")
+		return c.NoContent(http.StatusInternalServerError)
 	}
 	utils.SetUserSession(c, rf.sessionManager, 69)
 	c.String(http.StatusOK, kerb)

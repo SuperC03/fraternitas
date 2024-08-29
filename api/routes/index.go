@@ -26,6 +26,10 @@ func (rf *RouteFactory) RegisterRoutes(
 	overviewRoutesGroup := e.Group("/overview")
 	overviewRoutesGroup.GET("", rf.overview)
 
+	// Event Routes
+	eventRoutesGroup := e.Group("/event/:id")
+	eventRoutesGroup.GET("/information", rf.eventInformation)
+
 	// Auth Routes
 	authRoutesGroup := e.Group("/auth")
 	authRoutesGroup.GET("/whoami", rf.whoami)

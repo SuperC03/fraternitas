@@ -2,6 +2,8 @@ import { OktaAuth } from "@okta/okta-auth-js";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Security, useOktaAuth } from "@okta/okta-react";
 import { ReactNode, useEffect } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 const oktaAuth = new OktaAuth({
   issuer: import.meta.env.VITE_OIDC_ISSUER_URI,
@@ -22,17 +24,38 @@ export const OktaWrapper = ({ children }: { children: ReactNode }) => {
   );
 }
 
+const loginUserWithOidcCode =
+    async (code: string): Promise<any> => {
+        const res = await axios.post<any>(
+            import.meta.env.VITE_API_URI + "/auth/login/mit-oidc",
+            { code }
+        )
+        return res.data
+    }
+
 export const AuthRedirect = () => {
   const navigate = useNavigate();
   const [searchParams, _] = useSearchParams();
-  const { oktaAuth } = useOktaAuth();
+
+  const queryClient = useQueryClient();
+  const login = useMutation({
+    mutationFn: loginUserWithOidcCode,
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.getQueryCache();
+    },
+    onError: (err) => {
+      console.error(err);
+    }
+  });
 
   useEffect(() => {
-    searchParams.forEach((k, v) => { console.log(k, v) });
-    (async () => {
-      console.log("AT", oktaAuth)
-    })();
-    navigate('/');
+    const code = searchParams.get('code');
+    if(code) {
+      searchParams.delete('code');
+      login.mutate(code);
+      navigate('/');
+    }
   }, []);
 
   return "Redirecting"
