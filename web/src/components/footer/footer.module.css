@@ -3,6 +3,11 @@
   border-top: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
 }
 
+.logo {
+  display: inline;
+  text-transform: uppercase;
+}
+
 .inner {
   display: flex;
   justify-content: space-between;

@@ -1,12 +1,17 @@
-import { Anchor, AppShell, Container, Group, Title } from '@mantine/core';
+import { Anchor, Container, Group, Title } from '@mantine/core';
 
 import styles from './footer.module.css';
 
 export const Footer = () => {
   return (
-    <AppShell.Footer className={styles.footer}>
+    <footer className={styles.footer}>
       <Container className={styles.inner}>
-        <Title order={5}>Fraternitas</Title>
+        <span>
+          <Title className={styles.logo} order={4}>
+            Fraternitas
+          </Title>{' '}
+          v1
+        </span>
         <Group className={styles.links}>
           <Anchor<'a'> c="dimmed" href="mailto:fraternitas@mit.edu" size="sm">
             Contact Us
@@ -31,7 +36,7 @@ export const Footer = () => {
           </Anchor>
         </Group>
       </Container>
-    </AppShell.Footer>
+    </footer>
   );
 };
 
