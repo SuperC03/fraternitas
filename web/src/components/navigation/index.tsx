@@ -1,18 +1,23 @@
 import {
   AppShell,
+  // Avatar,
   Burger,
   Divider,
   Group,
   NavLink,
   Stack,
   Title,
+  UnstyledButton,
 } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
+import { useOktaAuth } from "@okta/okta-react";
 import { ProfileButton } from './profile-button';
 
 import {
   IconCalendarEvent,
   IconHome,
+  IconLogin,
+  IconLogout,
   IconTicket,
   IconUser,
   IconUsersGroup,
@@ -81,12 +86,18 @@ export type NavigationProps = {
 };
 
 export const Navigation = ({ opened, toggle }: NavigationProps) => {
+  const { oktaAuth } = useOktaAuth();
+
   return (
     <>
       <AppShell.Header>
-        <Group h="100%" px="md">
+        <Group h="100%" px="md" justify="space-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Title order={3}>MIT IFC Rush</Title>
+          <Title order={3}>{import.meta.env.VITE_APP_TITLE}</Title>
+          <UnstyledButton hiddenFrom="sm" onClick={()=>oktaAuth.signInWithRedirect()}>
+            <IconLogin stroke={2} />
+          </UnstyledButton>
+          {/* <Avatar src="https://brand.mit.edu/sites/default/files/styles/tile_narrow/public/2023-08/tim-full-body-front.png?itok=BxCyFvV2" /> */}
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
@@ -97,6 +108,16 @@ export const Navigation = ({ opened, toggle }: NavigationProps) => {
               component={Link}
               to="/"
               leftSection={<IconHome size="1rem" stroke={1.5} />}
+            />
+            <NavLink
+              label="Sign In"
+              onClick={()=>oktaAuth.signInWithRedirect()}
+              leftSection={<IconLogin size="1rem" stroke={1.5} />}
+            />
+            <NavLink
+              label="Sign Out"
+              onClick={() => {}}
+              leftSection={<IconLogout size="1rem" stroke={1.5} />}
             />
             <Divider my="xs" size="sm" label="My Rush" labelPosition="left" />
             {generalLinks.map((l) => (

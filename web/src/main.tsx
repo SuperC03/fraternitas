@@ -3,6 +3,8 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
+import { OktaWrapper } from './config/okta';
+
 import '@mantine/core/styles.css';
 
 import { routeTree } from './routeTree.gen';
@@ -21,7 +23,9 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <MantineProvider>
-        <RouterProvider router={router} />
+        <OktaWrapper>
+          <RouterProvider router={router} />
+        </OktaWrapper>
       </MantineProvider>
     </StrictMode>,
   );

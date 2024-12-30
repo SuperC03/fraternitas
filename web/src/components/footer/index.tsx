@@ -1,4 +1,4 @@
-import { Anchor, Container, Group, Title } from '@mantine/core';
+import { Anchor, Container, Group, Text, Title } from '@mantine/core';
 
 import styles from './footer.module.css';
 
@@ -10,7 +10,7 @@ export const Footer = () => {
           <Title className={styles.logo} order={4}>
             Fraternitas
           </Title>{' '}
-          v1
+          <Text>{import.meta.env.VITE_APP_VERSION}</Text>
         </span>
         <Group className={styles.links}>
           <Anchor<'a'> c="dimmed" href="mailto:fraternitas@mit.edu" size="sm">
