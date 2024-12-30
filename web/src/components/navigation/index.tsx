@@ -1,5 +1,4 @@
 import {
-  Anchor,
   AppShell,
   // Avatar,
   Burger,
@@ -10,8 +9,8 @@ import {
   Title,
   UnstyledButton,
 } from '@mantine/core';
+import { useOktaAuth } from '@okta/okta-react';
 import { Link } from '@tanstack/react-router';
-import { useOktaAuth } from "@okta/okta-react";
 import { ProfileButton } from './profile-button';
 
 import {
@@ -94,11 +93,13 @@ export const Navigation = ({ opened, toggle }: NavigationProps) => {
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          {/* <Title component={Link} order={3}>{import.meta.env.VITE_APP_TITLE}</Title> */}
-          <Link style={{textDecoration: 'none', color: 'inherit'}}>
-          <Title order={3}>{import.meta.env.VITE_APP_TITLE}</Title>
+          <Link style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Title order={3}>{import.meta.env.VITE_APP_TITLE}</Title>
           </Link>
-          <UnstyledButton hiddenFrom="sm" onClick={()=>oktaAuth.signInWithRedirect()}>
+          <UnstyledButton
+            hiddenFrom="sm"
+            onClick={() => oktaAuth.signInWithRedirect()}
+          >
             <IconLogin stroke={2} />
           </UnstyledButton>
           {/* <Avatar src="https://brand.mit.edu/sites/default/files/styles/tile_narrow/public/2023-08/tim-full-body-front.png?itok=BxCyFvV2" /> */}
@@ -115,7 +116,7 @@ export const Navigation = ({ opened, toggle }: NavigationProps) => {
             />
             <NavLink
               label="Sign In"
-              onClick={()=>oktaAuth.signInWithRedirect()}
+              onClick={() => oktaAuth.signInWithRedirect()}
               leftSection={<IconLogin size="1rem" stroke={1.5} />}
             />
             <NavLink
