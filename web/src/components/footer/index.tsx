@@ -10,7 +10,7 @@ export const Footer = () => {
           <Title className={styles.logo} order={4}>
             Fraternitas
           </Title>{' '}
-          <Text>{import.meta.env.VITE_APP_VERSION}</Text>
+          <Text style={{display: 'inline'}}>{import.meta.env.VITE_APP_VERSION}</Text>
         </span>
         <Group className={styles.links}>
           <Anchor<'a'> c="dimmed" href="mailto:fraternitas@mit.edu" size="sm">
