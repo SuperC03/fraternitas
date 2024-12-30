@@ -1,4 +1,5 @@
 import {
+  Anchor,
   AppShell,
   // Avatar,
   Burger,
@@ -93,7 +94,10 @@ export const Navigation = ({ opened, toggle }: NavigationProps) => {
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          {/* <Title component={Link} order={3}>{import.meta.env.VITE_APP_TITLE}</Title> */}
+          <Link style={{textDecoration: 'none', color: 'inherit'}}>
           <Title order={3}>{import.meta.env.VITE_APP_TITLE}</Title>
+          </Link>
           <UnstyledButton hiddenFrom="sm" onClick={()=>oktaAuth.signInWithRedirect()}>
             <IconLogin stroke={2} />
           </UnstyledButton>
