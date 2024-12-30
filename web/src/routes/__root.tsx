@@ -29,7 +29,7 @@ const RootRoute = () => {
           <Footer />
         </AppShell.Main>
       </AppShell>
-      {import.meta.env.PROD ? <TanStackRouterDevtools /> : null}
+      {import.meta.env.DEV ? <TanStackRouterDevtools /> : null}
     </>
   );
 };
