@@ -4,7 +4,7 @@ const minEl = document.getElementById("minutes");
 const secEl = document.getElementById("seconds");
 
 const countdown = () => {
-  const kresgeKickoff = new Date('August 31 2025, 12:00pm');
+  const kresgeKickoff = new Date('2025-08-31T12:00:00-04:00');
   const currentDate = new Date();
 
   const totalSeconds = (kresgeKickoff.getTime() - currentDate.getTime()) / 1000;
