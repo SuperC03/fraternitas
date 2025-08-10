@@ -38,7 +38,7 @@ export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
         </div>
         <div className="navbar-menu">
           <div className="navbar-end">
-            {loggedIn ? (
+{/*             {loggedIn ? (
               <div className="navbar-item">
                 <button className="button is-danger">Logout</button>
               </div>
@@ -46,7 +46,7 @@ export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
               <div className="navbar-item">
                 <button className="button is-primary" onClick={() => oktaAuth.signInWithRedirect()}>Login</button>
               </div>
-            )}
+            )} */}
           </div>
         </div >
       </nav >
