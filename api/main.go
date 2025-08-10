@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/redis/go-redis/v9"
 	"github.com/superc03/fraternitas/api/config"
 	"github.com/superc03/fraternitas/api/routes"
 )
@@ -35,11 +36,12 @@ func main() {
 	}
 
 	defer db.Close()
-	// Redis shenanigans
-	redis, err := config.RedisInit(ctx, &env)
-	if err != nil {
-		log.Fatal("Unable to connect to Redis\n", err.Error())
-	}
+	// Redis shenanigans (disabled temporarily)
+	// redis, err := config.RedisInit(ctx, &env)
+	// if err != nil {
+	// 	log.Fatal("Unable to connect to Redis\n", err.Error())
+	// }
+	var redis *redis.Client = nil
 	// Echo server shenanigans
 	server, e, sessionManager := config.EchoInit(&env, logger, db, redis)
 	r := routes.NewRouteFactory(&env, logger, db, redis, sessionManager)
