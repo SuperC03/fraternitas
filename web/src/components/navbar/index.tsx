@@ -47,8 +47,8 @@ export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
                 <button className="button is-primary" onClick={() => oktaAuth.signInWithRedirect()}>Login</button>
               </div>
             )} */}
-          </div>
-        </div >
+        </div>
+        {/* </div > */}
       </nav >
       {loggedIn ? <BottomBar /> : null}
     </>
