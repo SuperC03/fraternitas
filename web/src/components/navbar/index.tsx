@@ -20,7 +20,7 @@ export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
               <h1 className="has-text-weight-bold is-capitalized is-size-3 has-text-white">IFC Rush 2025</h1>
             </Link>
           </div>
-          <div className="navbar-burger">
+          {/*<div className="navbar-burger">
             {loggedIn ? (
               <button className="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -38,7 +38,7 @@ export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
         </div>
         <div className="navbar-menu">
           <div className="navbar-end">
-{/*             {loggedIn ? (
+             {loggedIn ? (
               <div className="navbar-item">
                 <button className="button is-danger">Logout</button>
               </div>
