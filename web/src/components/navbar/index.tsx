@@ -1,4 +1,4 @@
-import { useOktaAuth } from "@okta/okta-react";
+// import { useOktaAuth } from "@okta/okta-react";
 import BottomBar from "./bottom"
 
 import "./navbar.scss";
@@ -9,7 +9,7 @@ export interface NavbarProps {
 }
 
 export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
-  const { oktaAuth } = useOktaAuth();
+  // const { oktaAuth } = useOktaAuth();
 
   return (
     <>
