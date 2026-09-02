@@ -17,7 +17,7 @@ export const Navbar = ({ loggedIn }: NavbarProps): JSX.Element => {
         <div className="navbar-brand">
           <div className="navbar-item">
             <Link to="/">
-              <h1 className="has-text-weight-bold is-capitalized is-size-3 has-text-white">IFC Rush 2025</h1>
+              <h1 className="has-text-weight-bold is-capitalized is-size-3 has-text-white">IFC Rush 2026</h1>
             </Link>
           </div>
           {/*<div className="navbar-burger">
